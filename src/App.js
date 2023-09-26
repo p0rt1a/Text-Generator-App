@@ -1,24 +1,47 @@
-import logo from './logo.svg';
-import './App.css';
+import { useSelector, useDispatch } from "react-redux";
+import { fetchText } from "./redux/texts/textsSlice";
+import { useState } from "react";
 
 function App() {
+  const dispatch = useDispatch();
+  const text = useSelector((state) => state.texts.text);
+  const [paragraph, setParagraph] = useState(0);
+
+  const handleSubmit = () => {
+    dispatch(fetchText(paragraph));
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <>
+      <div>
+        <header>
+          <h1>Lorem Text Generator App</h1>
+        </header>
+        <nav
+          style={{
+            display: "flex",
+            alignItems: "center",
+            marginBottom: "20px",
+          }}
         >
-          Learn React
-        </a>
-      </header>
-    </div>
+          <div>
+            <label>Paragraphs</label>
+            <input
+              style={{ width: "60px", marginLeft: "10px" }}
+              type="number"
+              value={paragraph}
+              onChange={(e) => setParagraph(e.target.value)}
+            />
+            <button style={{ marginLeft: "10px" }} onClick={handleSubmit}>
+              Generate
+            </button>
+          </div>
+        </nav>
+        <div>
+          <p style={{ border: "1px solid black", padding: "10px" }}>{text}</p>
+        </div>
+      </div>
+    </>
   );
 }
 
